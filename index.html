@@ -9,144 +9,35 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <style>
         /* Custom Styles */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* Light gray background */
-            /* Prevent scrolling on body when mobile menu is open */
-        }
-        body.overflow-hidden {
-             overflow: hidden;
-        }
-        /* Simple transition for interactive elements */
-        .transition-all {
-            transition: all 0.3s ease-in-out;
-        }
-        /* Hide scrollbar for cleaner look if needed */
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        body.overflow-hidden { overflow: hidden; }
+        .transition-all { transition: all 0.3s ease-in-out; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* Style for active nav item */
-        .nav-active {
-            background-color: #e0f2fe; /* light-blue-100 */
-            color: #0c4a6e; /* sky-800 */
-            font-weight: 600;
-        }
-        /* Ensure modals are centered and responsive */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed;
-            z-index: 50;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.5); /* Dim background */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
+        .nav-active { background-color: #e0f2fe; color: #0c4a6e; font-weight: 600; }
+        .modal { display: none; position: fixed; z-index: 50; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; padding: 1rem; }
         .modal:not(.flex) { display: none; }
-
-        .modal-content {
-            background-color: #fff;
-            margin: auto;
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            width: 95%;
-            max-width: 600px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-        .modal-close {
-            cursor: pointer;
-            position: absolute;
-            top: 0.75rem;
-            right: 0.75rem;
-            font-size: 1.5rem;
-            color: #9ca3af;
-            line-height: 1;
-        }
+        .modal-content { background-color: #fff; margin: auto; padding: 1.5rem; border-radius: 0.5rem; width: 95%; max-width: 600px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); position: relative; }
+        .modal-close { cursor: pointer; position: absolute; top: 0.75rem; right: 0.75rem; font-size: 1.5rem; color: #9ca3af; line-height: 1; }
         .modal-close:hover { color: #374151; }
-
-        /* Progress bar style */
-        .progress-bar-container {
-            background-color: #e5e7eb;
-            border-radius: 9999px;
-            overflow: hidden;
-            height: 0.75rem;
-        }
-        .progress-bar {
-            background-color: #3b82f6;
-            height: 100%;
-            text-align: center;
-            color: white;
-            font-size: 0.65rem;
-            line-height: 0.75rem;
-            border-radius: 9999px;
-            transition: width 0.5s ease-in-out;
-        }
-         /* Calendar Styles - Responsive Adjustments */
-        .calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 0.25rem;
-            padding: 0.5rem;
-            background-color: #fff;
-            border-radius: 0.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .calendar-header {
-            text-align: center;
-            font-weight: 600;
-            color: #4b5563;
-            padding-bottom: 0.5rem;
-            font-size: 0.75rem;
-        }
-        .calendar-day {
-            border: 1px solid #e5e7eb;
-            padding: 0.25rem;
-            text-align: center;
-            min-height: 60px;
-            position: relative;
-            font-size: 0.75rem;
-            background-color: #f9fafb;
-            border-radius: 0.25rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
+        .progress-bar-container { background-color: #e5e7eb; border-radius: 9999px; overflow: hidden; height: 0.75rem; }
+        .progress-bar { background-color: #3b82f6; height: 100%; text-align: center; color: white; font-size: 0.65rem; line-height: 0.75rem; border-radius: 9999px; transition: width 0.5s ease-in-out; }
+        .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.25rem; padding: 0.5rem; background-color: #fff; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .calendar-header { text-align: center; font-weight: 600; color: #4b5563; padding-bottom: 0.5rem; font-size: 0.75rem; }
+        .calendar-day { border: 1px solid #e5e7eb; padding: 0.25rem; text-align: center; min-height: 60px; position: relative; font-size: 0.75rem; background-color: #f9fafb; border-radius: 0.25rem; display: flex; flex-direction: column; justify-content: flex-start; }
         .calendar-day.other-month { color: #d1d5db; background-color: #f3f4f6; }
-         .calendar-day .day-number {
-            font-weight: 500;
-            margin-bottom: 0.1rem;
-            color: #374151;
-            font-size: 0.7rem;
-        }
-        .calendar-event {
-            font-size: 0.6rem;
-            padding: 0.1rem 0.2rem;
-            border-radius: 0.25rem;
-            margin-top: 0.1rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            cursor: default;
-        }
+        .calendar-day .day-number { font-weight: 500; margin-bottom: 0.1rem; color: #374151; font-size: 0.7rem; }
+        .calendar-event { font-size: 0.6rem; padding: 0.1rem 0.2rem; border-radius: 0.25rem; margin-top: 0.1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: default; }
         .event-milestone { background-color: #bfdbfe; color: #1e40af; }
         .event-deadline { background-color: #fecaca; color: #991b1b; }
         .event-overdue { background-color: #fed7aa; color: #9a3412; }
         .today { background-color: #dbeafe; border: 1px solid #93c5fd; }
         .today .day-number { font-weight: 700; color: #1d4ed8; }
-
-        /* Mobile Menu Styles */
         #mobile-nav-menu { transition: transform 0.3s ease-in-out; }
-        #mobile-nav-menu.hidden { transform: translateX(-100%); } /* Start off-screen */
-        #mobile-nav-menu:not(.hidden) { transform: translateX(0); } /* Slide in */
+        #mobile-nav-menu.hidden { transform: translateX(-100%); }
+        #mobile-nav-menu:not(.hidden) { transform: translateX(0); }
+        #mobile-nav-overlay { transition: opacity 0.3s ease-in-out; } /* Added transition for overlay */
 
-
-        /* Responsive adjustments for larger screens */
         @media (min-width: 640px) { /* sm breakpoint */
              .calendar { gap: 0.5rem; padding: 1rem; }
              .calendar-day { padding: 0.5rem; min-height: 80px; font-size: 0.875rem; }
@@ -155,48 +46,30 @@
              .modal-content { padding: 2rem; }
         }
         @media (min-width: 768px) { /* md breakpoint */
-             /* Ensure body scroll is enabled on desktop */
-             body.overflow-hidden {
-                 overflow: auto;
-             }
+             body.overflow-hidden { overflow: auto; }
         }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="flex flex-col md:flex-row h-screen relative"> <aside class="w-full md:w-64 bg-white shadow-md flex-col hidden md:flex">
-        <div class="p-4 md:p-6 text-xl md:text-2xl font-bold text-sky-700 border-b">
-             <i class="fas fa-bullseye mr-2"></i> MetaApp
-        </div>
+<body class="flex flex-col md:flex-row h-screen relative">
+
+    <aside class="w-full md:w-64 bg-white shadow-md flex-col hidden md:flex">
+        <div class="p-4 md:p-6 text-xl md:text-2xl font-bold text-sky-700 border-b"><i class="fas fa-bullseye mr-2"></i> MetaApp</div>
         <nav class="flex-1 p-2 md:p-4 space-y-1 md:space-y-2">
-            <a href="#landing" class="nav-item flex items-center px-3 py-1.5 md:px-4 md:py-2 rounded-md text-gray-700 hover:bg-gray-100 nav-active" data-section="landing">
-                <i class="fas fa-home mr-2 md:mr-3 w-5 text-center"></i> <span class="text-sm md:text-base">Início</span>
-            </a>
-            <a href="#goals" class="nav-item flex items-center px-3 py-1.5 md:px-4 md:py-2 rounded-md text-gray-700 hover:bg-gray-100" data-section="goals">
-                <i class="fas fa-list-check mr-2 md:mr-3 w-5 text-center"></i> <span class="text-sm md:text-base">Minhas Metas</span>
-            </a>
-            <a href="#dashboard" class="nav-item flex items-center px-3 py-1.5 md:px-4 md:py-2 rounded-md text-gray-700 hover:bg-gray-100" data-section="dashboard">
-                <i class="fas fa-chart-line mr-2 md:mr-3 w-5 text-center"></i> <span class="text-sm md:text-base">Painel</span>
-            </a>
-             <a href="#calendar" class="nav-item flex items-center px-3 py-1.5 md:px-4 md:py-2 rounded-md text-gray-700 hover:bg-gray-100" data-section="calendar">
-                <i class="fas fa-calendar-alt mr-2 md:mr-3 w-5 text-center"></i> <span class="text-sm md:text-base">Calendário</span>
-            </a>
-            <a href="#add-goal" class="nav-item flex items-center px-3 py-1.5 md:px-4 md:py-2 rounded-md text-gray-700 hover:bg-gray-100" data-section="add-goal">
-                <i class="fas fa-plus-circle mr-2 md:mr-3 w-5 text-center"></i> <span class="text-sm md:text-base">Nova Meta</span>
-            </a>
+            <a href="#landing" class="nav-item flex items-center px-3 py-1.5 md:px-4 md:py-2 rounded-md text-gray-700 hover:bg-gray-100 nav-active" data-section="landing"><i class="fas fa-home mr-2 md:mr-3 w-5 text-center"></i> <span class="text-sm md:text-base">Início</span></a>
+            <a href="#goals" class="nav-item flex items-center px-3 py-1.5 md:px-4 md:py-2 rounded-md text-gray-700 hover:bg-gray-100" data-section="goals"><i class="fas fa-list-check mr-2 md:mr-3 w-5 text-center"></i> <span class="text-sm md:text-base">Minhas Metas</span></a>
+            <a href="#dashboard" class="nav-item flex items-center px-3 py-1.5 md:px-4 md:py-2 rounded-md text-gray-700 hover:bg-gray-100" data-section="dashboard"><i class="fas fa-chart-line mr-2 md:mr-3 w-5 text-center"></i> <span class="text-sm md:text-base">Painel</span></a>
+            <a href="#calendar" class="nav-item flex items-center px-3 py-1.5 md:px-4 md:py-2 rounded-md text-gray-700 hover:bg-gray-100" data-section="calendar"><i class="fas fa-calendar-alt mr-2 md:mr-3 w-5 text-center"></i> <span class="text-sm md:text-base">Calendário</span></a>
+            <a href="#add-goal" class="nav-item flex items-center px-3 py-1.5 md:px-4 md:py-2 rounded-md text-gray-700 hover:bg-gray-100" data-section="add-goal"><i class="fas fa-plus-circle mr-2 md:mr-3 w-5 text-center"></i> <span class="text-sm md:text-base">Nova Meta</span></a>
         </nav>
-        <div class="p-2 md:p-4 border-t text-center text-xs text-gray-500">
-            Organizador de Metas v1.2
-        </div>
+        <div class="p-2 md:p-4 border-t text-center text-xs text-gray-500">Organizador de Metas v1.3</div>
     </aside>
 
-    <header class="md:hidden w-full bg-white shadow-md p-3 flex justify-between items-center sticky top-0 z-30"> <div class="text-lg font-bold text-sky-700">
-             <i class="fas fa-bullseye mr-2"></i> MetaApp
-         </div>
-         <button id="mobile-menu-btn" class="text-gray-600 p-1">
-             <i class="fas fa-bars text-xl"></i>
-         </button>
+    <header class="md:hidden w-full bg-white shadow-md p-3 flex justify-between items-center sticky top-0 z-30">
+         <div class="text-lg font-bold text-sky-700"><i class="fas fa-bullseye mr-2"></i> MetaApp</div>
+         <button id="mobile-menu-btn" class="text-gray-600 p-1"><i class="fas fa-bars text-xl"></i></button>
     </header>
 
     <main class="flex-1 bg-gray-100 overflow-y-auto p-4 md:p-8 w-full">
@@ -205,9 +78,7 @@
              <div class="bg-white p-6 md:p-12 rounded-lg shadow-lg max-w-3xl mx-auto">
                  <h1 class="text-3xl md:text-4xl font-bold text-sky-800 mb-3 md:mb-4">Organizador de Metas Pessoais</h1>
                 <p class="text-lg md:text-xl text-gray-600 mb-6 md:mb-8">Transforme seus objetivos em conquistas reais.</p>
-                <button id="start-now-btn" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2.5 px-6 md:py-3 md:px-8 rounded-lg text-base md:text-lg transition-all">
-                    Começar Agora <i class="fas fa-arrow-right ml-2"></i>
-                </button>
+                <button id="start-now-btn" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-2.5 px-6 md:py-3 md:px-8 rounded-lg text-base md:text-lg transition-all">Começar Agora <i class="fas fa-arrow-right ml-2"></i></button>
                 <div class="mt-8 md:mt-10 text-left text-gray-700 space-y-3 md:space-y-4 text-sm md:text-base">
                      <h2 class="text-xl md:text-2xl font-semibold text-sky-700 mb-2 md:mb-3">Como funciona:</h2>
                      <p><i class="fas fa-check-circle text-green-500 mr-2"></i> Defina suas metas com clareza.</p>
@@ -234,15 +105,11 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
                             <label for="goal-category" class="block text-sm md:text-base text-gray-700 font-medium mb-1 md:mb-2">Categoria</label>
-                            <select id="goal-category" name="category" class="w-full px-3 py-1.5 md:px-4 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 bg-white text-sm md:text-base">
-                                <option value="Saúde">Saúde</option> <option value="Carreira">Carreira</option> <option value="Finanças">Finanças</option> <option value="Educação">Educação</option> <option value="Pessoal">Pessoal</option> <option value="Outro">Outro</option>
-                            </select>
+                            <select id="goal-category" name="category" class="w-full px-3 py-1.5 md:px-4 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 bg-white text-sm md:text-base"><option value="Saúde">Saúde</option><option value="Carreira">Carreira</option><option value="Finanças">Finanças</option><option value="Educação">Educação</option><option value="Pessoal">Pessoal</option><option value="Outro">Outro</option></select>
                         </div>
                         <div>
                             <label for="goal-priority" class="block text-sm md:text-base text-gray-700 font-medium mb-1 md:mb-2">Prioridade</label>
-                            <select id="goal-priority" name="priority" class="w-full px-3 py-1.5 md:px-4 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 bg-white text-sm md:text-base">
-                                <option value="Alta">Alta</option> <option value="Média">Média</option> <option value="Baixa">Baixa</option>
-                            </select>
+                            <select id="goal-priority" name="priority" class="w-full px-3 py-1.5 md:px-4 md:py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 bg-white text-sm md:text-base"><option value="Alta">Alta</option><option value="Média">Média</option><option value="Baixa">Baixa</option></select>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -274,21 +141,15 @@
                 <div class="flex flex-wrap gap-3 md:gap-4 mb-4 md:mb-6 p-3 md:p-4 bg-gray-50 rounded-md border">
                     <div class="flex-grow min-w-[120px]">
                         <label for="filter-category" class="text-xs md:text-sm font-medium text-gray-600 block mb-1">Categoria:</label>
-                        <select id="filter-category" class="w-full px-2 py-1 md:px-3 md:py-1.5 border border-gray-300 rounded-md text-xs md:text-sm focus:outline-none focus:ring-1 focus:ring-sky-500 bg-white">
-                             <option value="Todos">Todos</option> <option value="Saúde">Saúde</option> <option value="Carreira">Carreira</option> <option value="Finanças">Finanças</option> <option value="Educação">Educação</option> <option value="Pessoal">Pessoal</option> <option value="Outro">Outro</option>
-                        </select>
+                        <select id="filter-category" class="w-full px-2 py-1 md:px-3 md:py-1.5 border border-gray-300 rounded-md text-xs md:text-sm focus:outline-none focus:ring-1 focus:ring-sky-500 bg-white"><option value="Todos">Todos</option><option value="Saúde">Saúde</option><option value="Carreira">Carreira</option><option value="Finanças">Finanças</option><option value="Educação">Educação</option><option value="Pessoal">Pessoal</option><option value="Outro">Outro</option></select>
                     </div>
                      <div class="flex-grow min-w-[120px]">
                         <label for="filter-status" class="text-xs md:text-sm font-medium text-gray-600 block mb-1">Status:</label>
-                        <select id="filter-status" class="w-full px-2 py-1 md:px-3 md:py-1.5 border border-gray-300 rounded-md text-xs md:text-sm focus:outline-none focus:ring-1 focus:ring-sky-500 bg-white">
-                            <option value="Todos">Todos</option> <option value="Em andamento">Em andamento</option> <option value="Concluída">Concluída</option> <option value="Atrasada">Atrasada</option>
-                        </select>
+                        <select id="filter-status" class="w-full px-2 py-1 md:px-3 md:py-1.5 border border-gray-300 rounded-md text-xs md:text-sm focus:outline-none focus:ring-1 focus:ring-sky-500 bg-white"><option value="Todos">Todos</option><option value="Em andamento">Em andamento</option><option value="Concluída">Concluída</option><option value="Atrasada">Atrasada</option></select>
                     </div>
                     <div class="flex-grow min-w-[120px]">
                         <label for="filter-priority" class="text-xs md:text-sm font-medium text-gray-600 block mb-1">Prioridade:</label>
-                        <select id="filter-priority" class="w-full px-2 py-1 md:px-3 md:py-1.5 border border-gray-300 rounded-md text-xs md:text-sm focus:outline-none focus:ring-1 focus:ring-sky-500 bg-white">
-                            <option value="Todos">Todos</option> <option value="Alta">Alta</option> <option value="Média">Média</option> <option value="Baixa">Baixa</option>
-                        </select>
+                        <select id="filter-priority" class="w-full px-2 py-1 md:px-3 md:py-1.5 border border-gray-300 rounded-md text-xs md:text-sm focus:outline-none focus:ring-1 focus:ring-sky-500 bg-white"><option value="Todos">Todos</option><option value="Alta">Alta</option><option value="Média">Média</option><option value="Baixa">Baixa</option></select>
                     </div>
                      <div class="flex items-end">
                         <button id="clear-filters-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-700 font-medium py-1 px-3 md:py-1.5 md:px-4 rounded-md text-xs md:text-sm transition-all">Limpar</button>
@@ -333,7 +194,8 @@
                  <div class="calendar-header-row grid grid-cols-7 gap-1 md:gap-2 mb-1 md:mb-2 text-center font-medium text-xs md:text-sm text-gray-500">
                     <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div>
                  </div>
-                 <div id="calendar-grid" class="calendar"></div>
+                 <div id="calendar-grid" class="calendar">
+                     </div>
                  <div class="mt-3 md:mt-4 flex flex-wrap gap-x-3 md:gap-x-4 gap-y-1 md:gap-y-2 text-xs">
                     <span class="flex items-center"><span class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#bfdbfe] mr-1 md:mr-1.5"></span> Marco</span>
                     <span class="flex items-center"><span class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-[#fecaca] mr-1 md:mr-1.5"></span> Prazo</span>
@@ -375,9 +237,9 @@
             </div>
         </div>
 
-        <div id="mobile-nav-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300 ease-in-out" onclick="toggleMobileMenu(false)"></div> <div id="mobile-nav-menu" class="hidden fixed top-0 left-0 h-full w-64 bg-white shadow-xl z-50 p-4 transform -translate-x-full transition-transform duration-300 ease-in-out"> <button class="absolute top-3 right-3 text-gray-500 p-1" onclick="toggleMobileMenu(false)">
-                 <i class="fas fa-times text-xl"></i>
-             </button>
+        <div id="mobile-nav-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300 ease-in-out" onclick="toggleMobileMenu(false)"></div>
+         <div id="mobile-nav-menu" class="hidden fixed top-0 left-0 h-full w-64 bg-white shadow-xl z-50 p-4 transform -translate-x-full transition-transform duration-300 ease-in-out">
+             <button class="absolute top-3 right-3 text-gray-500 p-1" onclick="toggleMobileMenu(false)"><i class="fas fa-times text-xl"></i></button>
              <div class="text-lg font-bold text-sky-700 mb-6 mt-2">Menu</div>
              <nav class="flex flex-col space-y-2">
                  <a href="#landing" class="mobile-nav-item block px-4 py-2 rounded-md text-gray-700 hover:bg-gray-100" data-section="landing"><i class="fas fa-home w-5 mr-2 text-center"></i>Início</a>
@@ -399,8 +261,8 @@
 
         // --- DOM Elements ---
         const sections = document.querySelectorAll('.content-section');
-        const navItems = document.querySelectorAll('.nav-item'); // Desktop nav
-        const mobileNavItems = document.querySelectorAll('.mobile-nav-item'); // Mobile nav
+        const navItems = document.querySelectorAll('.nav-item');
+        const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
         const startNowButton = document.getElementById('start-now-btn');
         const goalForm = document.getElementById('goal-form');
         const goalListContainer = document.getElementById('goal-list-container');
@@ -414,7 +276,6 @@
         const filterStatus = document.getElementById('filter-status');
         const filterPriority = document.getElementById('filter-priority');
         const clearFiltersBtn = document.getElementById('clear-filters-btn');
-        // Dashboard elements
         const activeGoalsCountEl = document.getElementById('active-goals-count');
         const completedGoalsCountEl = document.getElementById('completed-goals-count');
         const overdueGoalsCountEl = document.getElementById('overdue-goals-count');
@@ -422,415 +283,285 @@
         const overallProgressChartCtx = document.getElementById('overallProgressChart').getContext('2d');
         const upcomingItemsListEl = document.getElementById('upcoming-items-list');
         const noUpcomingMessage = document.getElementById('no-upcoming-message');
-        // Calendar elements
         const calendarGrid = document.getElementById('calendar-grid');
         const calendarMonthYear = document.getElementById('calendar-month-year');
         const prevMonthBtn = document.getElementById('prev-month-btn');
         const nextMonthBtn = document.getElementById('next-month-btn');
-        // Modal elements
         const confirmationModal = document.getElementById('confirmation-modal');
         const modalTitle = document.getElementById('modal-title');
         const modalMessage = document.getElementById('modal-message');
         const modalConfirmBtn = document.getElementById('modal-confirm-btn');
-        // Mobile Menu Elements
-        // ** MODIFIED: Correctly select the button by ID **
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileNavMenu = document.getElementById('mobile-nav-menu');
-        const mobileNavOverlay = document.getElementById('mobile-nav-overlay'); // Added overlay element
+        const mobileNavOverlay = document.getElementById('mobile-nav-overlay');
 
 
         // --- Utility Functions ---
-        const showSection = (sectionId, fromMobile = false) => {
+        const showSection = (sectionId, fromMobile = false) => { /* ... show section logic ... */
             sections.forEach(section => section.classList.add('hidden'));
             const activeSection = document.getElementById(sectionId);
             if (activeSection) activeSection.classList.remove('hidden');
-
-            // Update active nav item (Desktop)
-            navItems.forEach(item => {
-                item.classList.remove('nav-active');
-                if (item.dataset.section === sectionId) item.classList.add('nav-active');
-            });
-             // Update active nav item (Mobile)
-             mobileNavItems.forEach(item => {
-                 item.classList.remove('bg-gray-200'); // Use a simple background for active mobile item
-                 if (item.dataset.section === sectionId) item.classList.add('bg-gray-200');
-             });
-
-            // Refresh data
+            navItems.forEach(item => { item.classList.remove('nav-active'); if (item.dataset.section === sectionId) item.classList.add('nav-active'); });
+            mobileNavItems.forEach(item => { item.classList.remove('bg-gray-200'); if (item.dataset.section === sectionId) item.classList.add('bg-gray-200'); });
             if (sectionId === 'goals') renderGoalList();
             if (sectionId === 'dashboard') renderDashboard();
             if (sectionId === 'calendar') renderCalendar();
             if (sectionId === 'add-goal' && !currentEditingGoalId) resetGoalForm();
-
-            // Close mobile menu if navigating from it
             if (fromMobile) toggleMobileMenu(false);
-
-            document.querySelector('main').scrollTop = 0; // Scroll main content to top
+            document.querySelector('main').scrollTop = 0;
         };
-
         const saveGoals = () => localStorage.setItem('goals', JSON.stringify(goals));
-
-        const getGoalStatus = (goal) => {
+        const getGoalStatus = (goal) => { /* ... get goal status ... */
             const today = new Date().setHours(0, 0, 0, 0);
             const endDateStr = goal.endDate;
             if (!endDateStr) return goal.completed ? 'Concluída' : 'Em andamento';
-            const parts = endDateStr.split('-');
-            const endDate = new Date(parts[0], parts[1] - 1, parts[2]).setHours(0,0,0,0);
-            if (goal.completed) return 'Concluída';
-            if (endDate < today) return 'Atrasada';
-            return 'Em andamento';
+            try {
+                const parts = endDateStr.split('-');
+                const endDate = new Date(parts[0], parts[1] - 1, parts[2]).setHours(0,0,0,0);
+                if (isNaN(endDate)) return 'Em andamento'; // Handle invalid date
+                if (goal.completed) return 'Concluída';
+                if (endDate < today) return 'Atrasada';
+                return 'Em andamento';
+            } catch (e) {
+                console.error("Error parsing end date:", e);
+                return 'Em andamento'; // Default status on error
+            }
         };
-
-         const calculateGoalProgress = (goal) => {
+        const calculateGoalProgress = (goal) => { /* ... calculate progress ... */
             if (goal.completed) return 100;
             if (!goal.milestones || goal.milestones.length === 0) return 0;
             const completedMilestones = goal.milestones.filter(m => m.completed).length;
             return Math.round((completedMilestones / goal.milestones.length) * 100);
         };
-
-        const formatDate = (dateString) => {
+        const formatDate = (dateString) => { /* ... format date ... */
             if (!dateString || dateString.length < 10) return 'N/A';
-            const parts = dateString.split('-');
-            if (parts.length !== 3) return 'Data Inválida';
-            const date = new Date(parts[0], parts[1] - 1, parts[2]);
-            if (isNaN(date.getTime())) return 'Data Inválida';
-            return date.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+             try {
+                const parts = dateString.split('-');
+                if (parts.length !== 3) return 'Data Inválida';
+                const date = new Date(parts[0], parts[1] - 1, parts[2]);
+                if (isNaN(date.getTime())) return 'Data Inválida';
+                return date.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+            } catch (e) {
+                 console.error("Error formatting date:", e);
+                 return 'Data Inválida';
+            }
         };
-
-         const getPriorityClass = (priority) => { /* ... priority classes ... */
-            switch (priority) {
-                case 'Alta': return 'border-red-500';
-                case 'Média': return 'border-yellow-500';
-                case 'Baixa': return 'border-green-500';
-                default: return 'border-gray-300';
-            }
-         };
-         const getStatusBadgeClass = (status) => { /* ... status badge classes ... */
-            switch (status) {
-                case 'Concluída': return 'bg-green-100 text-green-800';
-                case 'Atrasada': return 'bg-red-100 text-red-800';
-                case 'Em andamento': return 'bg-blue-100 text-blue-800';
-                default: return 'bg-gray-100 text-gray-800';
-            }
-         };
+        const getPriorityClass = (priority) => { /* ... priority classes ... */
+            switch(priority){case 'Alta': return 'border-red-500'; case 'Média': return 'border-yellow-500'; case 'Baixa': return 'border-green-500'; default: return 'border-gray-300';} };
+        const getStatusBadgeClass = (status) => { /* ... status badge classes ... */
+            switch(status){case 'Concluída': return 'bg-green-100 text-green-800'; case 'Atrasada': return 'bg-red-100 text-red-800'; case 'Em andamento': return 'bg-blue-100 text-blue-800'; default: return 'bg-gray-100 text-gray-800';} };
 
         // --- Milestone Management ---
         const addMilestoneInput = (milestone = { text: '', date: '', completed: false }) => { /* ... add milestone input ... */
-            const div = document.createElement('div');
-            div.className = 'flex flex-col sm:flex-row items-start sm:items-center space-y-1 sm:space-y-0 sm:space-x-2 milestone-entry';
-            div.innerHTML = `
-                <div class="flex items-center w-full sm:w-auto">
-                    <input type="checkbox" class="milestone-completed h-4 w-4 text-sky-600 border-gray-300 rounded focus:ring-sky-500 mr-2" ${milestone.completed ? 'checked' : ''}>
-                    <input type="text" placeholder="Descrição do Marco" value="${milestone.text || ''}" class="milestone-text flex-grow px-2 py-1 md:px-3 md:py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-sky-500" required>
-                </div>
-                <div class="flex items-center w-full sm:w-auto space-x-2">
-                     <input type="date" value="${milestone.date || ''}" class="milestone-date px-2 py-1 md:px-3 md:py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-sky-500 w-full sm:w-auto">
-                     <button type="button" class="remove-milestone-btn text-red-500 hover:text-red-700 text-sm p-1" title="Remover Marco"><i class="fas fa-times-circle"></i></button>
-                </div>`;
-            milestonesContainer.appendChild(div);
-            div.querySelector('.remove-milestone-btn').addEventListener('click', () => div.remove());
+             const div = document.createElement('div'); div.className = 'flex flex-col sm:flex-row items-start sm:items-center space-y-1 sm:space-y-0 sm:space-x-2 milestone-entry';
+             div.innerHTML = `<div class="flex items-center w-full sm:w-auto"><input type="checkbox" class="milestone-completed h-4 w-4 text-sky-600 border-gray-300 rounded focus:ring-sky-500 mr-2" ${milestone.completed ? 'checked' : ''}><input type="text" placeholder="Descrição do Marco" value="${milestone.text || ''}" class="milestone-text flex-grow px-2 py-1 md:px-3 md:py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-sky-500" required></div><div class="flex items-center w-full sm:w-auto space-x-2"><input type="date" value="${milestone.date || ''}" class="milestone-date px-2 py-1 md:px-3 md:py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-sky-500 w-full sm:w-auto"><button type="button" class="remove-milestone-btn text-red-500 hover:text-red-700 text-sm p-1" title="Remover Marco"><i class="fas fa-times-circle"></i></button></div>`;
+             milestonesContainer.appendChild(div); div.querySelector('.remove-milestone-btn').addEventListener('click', () => div.remove());
         };
         addMilestoneBtn.addEventListener('click', () => addMilestoneInput());
 
         // --- Goal Form Handling ---
-        const resetGoalForm = () => { /* ... reset form ... */
-            goalForm.reset();
-            milestonesContainer.innerHTML = '';
-            goalIdInput.value = '';
-            currentEditingGoalId = null;
-            submitBtnText.textContent = 'Salvar Meta';
-            cancelEditBtn.classList.add('hidden');
-            addMilestoneInput();
-        };
+        const resetGoalForm = () => { /* ... reset form ... */ goalForm.reset(); milestonesContainer.innerHTML = ''; goalIdInput.value = ''; currentEditingGoalId = null; submitBtnText.textContent = 'Salvar Meta'; cancelEditBtn.classList.add('hidden'); addMilestoneInput(); };
         goalForm.addEventListener('submit', (e) => { /* ... handle form submit ... */
-            e.preventDefault();
-            const formData = new FormData(goalForm);
-            const goalData = Object.fromEntries(formData.entries());
-            goalData.milestones = [];
-            document.querySelectorAll('.milestone-entry').forEach(entry => {
-                 const textInput = entry.querySelector('.milestone-text');
-                 const dateInput = entry.querySelector('.milestone-date');
-                 const completedCheckbox = entry.querySelector('.milestone-completed');
-                 if (textInput && textInput.value.trim()) {
-                    goalData.milestones.push({ text: textInput.value.trim(), date: dateInput ? dateInput.value : '', completed: completedCheckbox ? completedCheckbox.checked : false });
-                 }
-            });
+            e.preventDefault(); const formData = new FormData(goalForm); const goalData = Object.fromEntries(formData.entries()); goalData.milestones = [];
+            document.querySelectorAll('.milestone-entry').forEach(entry => { const textInput = entry.querySelector('.milestone-text'); const dateInput = entry.querySelector('.milestone-date'); const completedCheckbox = entry.querySelector('.milestone-completed'); if (textInput && textInput.value.trim()) { goalData.milestones.push({ text: textInput.value.trim(), date: dateInput ? dateInput.value : '', completed: completedCheckbox ? completedCheckbox.checked : false }); } });
             if (goalData.endDate && goalData.startDate && goalData.endDate < goalData.startDate) { alert('A Data Final não pode ser anterior à Data de Início.'); return; }
-            if (currentEditingGoalId) {
-                const index = goals.findIndex(g => g.id === currentEditingGoalId);
-                if (index !== -1) {
-                    const originalGoal = goals[index];
-                    goals[index] = { ...originalGoal, ...goalData, id: currentEditingGoalId };
-                    const allMilestonesCompleted = goalData.milestones.length > 0 && goalData.milestones.every(m => m.completed);
-                    goals[index].completed = allMilestonesCompleted;
-                }
-            } else {
-                goalData.id = `goal-${Date.now()}`;
-                goalData.completed = false;
-                const allMilestonesCompleted = goalData.milestones.length > 0 && goalData.milestones.every(m => m.completed);
-                goalData.completed = allMilestonesCompleted;
-                goals.push(goalData);
-            }
+            if (currentEditingGoalId) { const index = goals.findIndex(g => g.id === currentEditingGoalId); if (index !== -1) { const originalGoal = goals[index]; goals[index] = { ...originalGoal, ...goalData, id: currentEditingGoalId }; const allMilestonesCompleted = goalData.milestones.length > 0 && goalData.milestones.every(m => m.completed); goals[index].completed = allMilestonesCompleted; } }
+            else { goalData.id = `goal-${Date.now()}`; goalData.completed = false; const allMilestonesCompleted = goalData.milestones.length > 0 && goalData.milestones.every(m => m.completed); goalData.completed = allMilestonesCompleted; goals.push(goalData); }
             saveGoals(); resetGoalForm(); showSection('goals');
         });
         cancelEditBtn.addEventListener('click', () => { resetGoalForm(); showSection('goals'); });
 
         // --- Goal List Rendering and Filtering ---
         const renderGoalList = () => { /* ... render goal list ... */
-            goalListContainer.innerHTML = '';
-            const categoryFilter = filterCategory.value;
-            const statusFilter = filterStatus.value;
-            const priorityFilter = filterPriority.value;
-            const filteredGoals = goals.filter(goal => {
-                const status = getGoalStatus(goal);
-                const categoryMatch = categoryFilter === 'Todos' || goal.category === categoryFilter;
-                const statusMatch = statusFilter === 'Todos' || status === statusFilter;
-                const priorityMatch = priorityFilter === 'Todos' || goal.priority === priorityFilter;
-                return categoryMatch && statusMatch && priorityMatch;
-            });
-            if (filteredGoals.length === 0) {
-                 noGoalsMessage.classList.toggle('hidden', goals.length === 0);
-                 goalListContainer.innerHTML = goals.length > 0 ? '<p class="text-center text-gray-500 py-8 text-sm md:text-base">Nenhuma meta encontrada com os filtros selecionados.</p>' : '';
-            } else {
-                 noGoalsMessage.classList.add('hidden');
-                filteredGoals.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
-                filteredGoals.forEach(goal => goalListContainer.appendChild(createGoalCard(goal)));
-            }
+            goalListContainer.innerHTML = ''; const categoryFilter = filterCategory.value; const statusFilter = filterStatus.value; const priorityFilter = filterPriority.value;
+            const filteredGoals = goals.filter(goal => { const status = getGoalStatus(goal); const categoryMatch = categoryFilter === 'Todos' || goal.category === categoryFilter; const statusMatch = statusFilter === 'Todos' || status === statusFilter; const priorityMatch = priorityFilter === 'Todos' || goal.priority === priorityFilter; return categoryMatch && statusMatch && priorityMatch; });
+            if (filteredGoals.length === 0) { noGoalsMessage.classList.toggle('hidden', goals.length === 0); goalListContainer.innerHTML = goals.length > 0 ? '<p class="text-center text-gray-500 py-8 text-sm md:text-base">Nenhuma meta encontrada com os filtros selecionados.</p>' : ''; }
+            else { noGoalsMessage.classList.add('hidden'); filteredGoals.sort((a, b) => new Date(b.startDate) - new Date(a.startDate)); filteredGoals.forEach(goal => goalListContainer.appendChild(createGoalCard(goal))); }
         };
         const createGoalCard = (goal) => { /* ... create goal card ... */
-            const card = document.createElement('div');
-            const status = getGoalStatus(goal);
-            const progress = calculateGoalProgress(goal);
-            const priorityClass = getPriorityClass(goal.priority);
-            const statusBadgeClass = getStatusBadgeClass(status);
-            card.className = `bg-white p-3 md:p-5 rounded-lg shadow border-l-4 ${priorityClass} mb-3 md:mb-4 transition-all hover:shadow-md`;
-            card.innerHTML = `
-                <div class="flex justify-between items-start mb-2">
-                    <div>
-                        <h3 class="text-base md:text-xl font-semibold text-gray-800 break-words">${goal.title}</h3>
-                        <span class="text-xs font-medium px-1.5 py-0.5 rounded ${statusBadgeClass}">${status}</span>
-                        <span class="text-xs md:text-sm text-gray-500 ml-1 md:ml-2">(${goal.category} / ${goal.priority})</span>
-                    </div>
-                    <div class="flex space-x-1 md:space-x-2 text-gray-500 text-sm md:text-base flex-shrink-0">
-                         ${!goal.completed ? `<button class="complete-btn hover:text-green-600 p-1" title="Marcar como Concluída" data-id="${goal.id}"><i class="fas fa-check-circle"></i></button>` : `<button class="uncomplete-btn hover:text-yellow-600 p-1" title="Marcar como Em Andamento" data-id="${goal.id}"><i class="fas fa-undo"></i></button>`}
-                        <button class="edit-btn hover:text-sky-600 p-1" title="Editar Meta" data-id="${goal.id}"><i class="fas fa-edit"></i></button>
-                        <button class="delete-btn hover:text-red-600 p-1" title="Excluir Meta" data-id="${goal.id}"><i class="fas fa-trash-alt"></i></button>
-                    </div>
-                </div>
-                <p class="text-gray-600 text-xs md:text-sm mb-2 break-words">${goal.description || 'Sem descrição.'}</p>
-                <div class="text-xs md:text-sm text-gray-500 mb-2">
-                    <span>Início: ${formatDate(goal.startDate)}</span> | <span>Final: ${formatDate(goal.endDate)}</span>
-                </div>
-                <div class="mb-2">
-                     <div class="flex justify-between text-xs text-gray-600 mb-1"><span>Progresso (${progress}%)</span><span>Marcos: ${goal.milestones.filter(m => m.completed).length}/${goal.milestones.length}</span></div>
-                     <div class="progress-bar-container"><div class="progress-bar" style="width: ${progress}%;"></div></div>
-                </div>
-                <details class="text-xs md:text-sm">
-                    <summary class="cursor-pointer text-sky-700 hover:underline font-medium">Ver Marcos (${goal.milestones ? goal.milestones.length : 0})</summary>
-                    <ul class="list-disc list-inside mt-1 md:mt-2 space-y-0.5 md:space-y-1 pl-4 text-gray-600">
-                        ${goal.milestones && goal.milestones.length > 0 ? goal.milestones.map(m => `<li class="${m.completed ? 'line-through text-gray-400' : ''}"><i class="fas ${m.completed ? 'fa-check-square text-green-500' : 'fa-square text-gray-400'} mr-1 text-xs"></i>${m.text} ${m.date ? `(${formatDate(m.date)})` : ''}</li>`).join('') : '<li class="text-gray-400 italic">Nenhum marco definido.</li>'}
-                    </ul>
-                </details>`;
-            card.querySelector('.edit-btn')?.addEventListener('click', (e) => { e.stopPropagation(); editGoal(goal.id); });
-            card.querySelector('.delete-btn')?.addEventListener('click', (e) => { e.stopPropagation(); confirmDeleteGoal(goal.id); });
-            card.querySelector('.complete-btn')?.addEventListener('click', (e) => { e.stopPropagation(); toggleGoalCompletion(goal.id, true); });
-            card.querySelector('.uncomplete-btn')?.addEventListener('click', (e) => { e.stopPropagation(); toggleGoalCompletion(goal.id, false); });
-            return card;
+            const card = document.createElement('div'); const status = getGoalStatus(goal); const progress = calculateGoalProgress(goal); const priorityClass = getPriorityClass(goal.priority); const statusBadgeClass = getStatusBadgeClass(status); card.className = `bg-white p-3 md:p-5 rounded-lg shadow border-l-4 ${priorityClass} mb-3 md:mb-4 transition-all hover:shadow-md`;
+            card.innerHTML = `<div class="flex justify-between items-start mb-2"><div><h3 class="text-base md:text-xl font-semibold text-gray-800 break-words">${goal.title}</h3><span class="text-xs font-medium px-1.5 py-0.5 rounded ${statusBadgeClass}">${status}</span><span class="text-xs md:text-sm text-gray-500 ml-1 md:ml-2">(${goal.category} / ${goal.priority})</span></div><div class="flex space-x-1 md:space-x-2 text-gray-500 text-sm md:text-base flex-shrink-0">${!goal.completed ? `<button class="complete-btn hover:text-green-600 p-1" title="Marcar como Concluída" data-id="${goal.id}"><i class="fas fa-check-circle"></i></button>` : `<button class="uncomplete-btn hover:text-yellow-600 p-1" title="Marcar como Em Andamento" data-id="${goal.id}"><i class="fas fa-undo"></i></button>`}<button class="edit-btn hover:text-sky-600 p-1" title="Editar Meta" data-id="${goal.id}"><i class="fas fa-edit"></i></button><button class="delete-btn hover:text-red-600 p-1" title="Excluir Meta" data-id="${goal.id}"><i class="fas fa-trash-alt"></i></button></div></div><p class="text-gray-600 text-xs md:text-sm mb-2 break-words">${goal.description || 'Sem descrição.'}</p><div class="text-xs md:text-sm text-gray-500 mb-2"><span>Início: ${formatDate(goal.startDate)}</span> | <span>Final: ${formatDate(goal.endDate)}</span></div><div class="mb-2"><div class="flex justify-between text-xs text-gray-600 mb-1"><span>Progresso (${progress}%)</span><span>Marcos: ${goal.milestones?.filter(m => m.completed).length || 0}/${goal.milestones?.length || 0}</span></div><div class="progress-bar-container"><div class="progress-bar" style="width: ${progress}%;"></div></div></div><details class="text-xs md:text-sm"><summary class="cursor-pointer text-sky-700 hover:underline font-medium">Ver Marcos (${goal.milestones?.length || 0})</summary><ul class="list-disc list-inside mt-1 md:mt-2 space-y-0.5 md:space-y-1 pl-4 text-gray-600">${goal.milestones && goal.milestones.length > 0 ? goal.milestones.map(m => `<li class="${m.completed ? 'line-through text-gray-400' : ''}"><i class="fas ${m.completed ? 'fa-check-square text-green-500' : 'fa-square text-gray-400'} mr-1 text-xs"></i>${m.text} ${m.date ? `(${formatDate(m.date)})` : ''}</li>`).join('') : '<li class="text-gray-400 italic">Nenhum marco definido.</li>'}</ul></details>`;
+            card.querySelector('.edit-btn')?.addEventListener('click', (e) => { e.stopPropagation(); editGoal(goal.id); }); card.querySelector('.delete-btn')?.addEventListener('click', (e) => { e.stopPropagation(); confirmDeleteGoal(goal.id); }); card.querySelector('.complete-btn')?.addEventListener('click', (e) => { e.stopPropagation(); toggleGoalCompletion(goal.id, true); }); card.querySelector('.uncomplete-btn')?.addEventListener('click', (e) => { e.stopPropagation(); toggleGoalCompletion(goal.id, false); }); return card;
         };
 
         // --- Goal Actions (Edit, Delete, Complete) ---
-        const editGoal = (id) => { /* ... edit goal ... */
-            const goal = goals.find(g => g.id === id); if (!goal) return;
-            currentEditingGoalId = id; goalIdInput.value = id;
-            document.getElementById('goal-title').value = goal.title;
-            document.getElementById('goal-description').value = goal.description || '';
-            document.getElementById('goal-category').value = goal.category;
-            document.getElementById('goal-priority').value = goal.priority;
-            document.getElementById('goal-start-date').value = goal.startDate;
-            document.getElementById('goal-end-date').value = goal.endDate;
-            milestonesContainer.innerHTML = '';
-            if (goal.milestones && goal.milestones.length > 0) { goal.milestones.forEach(m => addMilestoneInput(m)); } else { addMilestoneInput(); }
-            submitBtnText.textContent = 'Atualizar Meta'; cancelEditBtn.classList.remove('hidden'); showSection('add-goal');
-        };
+        const editGoal = (id) => { /* ... edit goal ... */ const goal = goals.find(g => g.id === id); if (!goal) return; currentEditingGoalId = id; goalIdInput.value = id; document.getElementById('goal-title').value = goal.title; document.getElementById('goal-description').value = goal.description || ''; document.getElementById('goal-category').value = goal.category; document.getElementById('goal-priority').value = goal.priority; document.getElementById('goal-start-date').value = goal.startDate; document.getElementById('goal-end-date').value = goal.endDate; milestonesContainer.innerHTML = ''; if (goal.milestones && goal.milestones.length > 0) { goal.milestones.forEach(m => addMilestoneInput(m)); } else { addMilestoneInput(); } submitBtnText.textContent = 'Atualizar Meta'; cancelEditBtn.classList.remove('hidden'); showSection('add-goal'); };
         const confirmDeleteGoal = (id) => openModal('confirmation-modal', 'Excluir Meta', 'Tem certeza que deseja excluir esta meta? Esta ação não pode ser desfeita.', () => deleteGoal(id));
-        const deleteGoal = (id) => { /* ... delete goal ... */
-            goals = goals.filter(g => g.id !== id); saveGoals(); renderGoalList(); renderDashboard(); renderCalendar(); closeModal('confirmation-modal');
-        };
-        const toggleGoalCompletion = (id, completedStatus) => { /* ... toggle completion ... */
-            const index = goals.findIndex(g => g.id === id);
-            if (index !== -1) {
-                goals[index].completed = completedStatus;
-                if (goals[index].milestones) { goals[index].milestones.forEach(m => m.completed = completedStatus); }
-                saveGoals(); renderGoalList(); renderDashboard(); renderCalendar();
-            }
-        };
+        const deleteGoal = (id) => { /* ... delete goal ... */ goals = goals.filter(g => g.id !== id); saveGoals(); renderGoalList(); renderDashboard(); renderCalendar(); closeModal('confirmation-modal'); };
+        const toggleGoalCompletion = (id, completedStatus) => { /* ... toggle completion ... */ const index = goals.findIndex(g => g.id === id); if (index !== -1) { goals[index].completed = completedStatus; if (goals[index].milestones) { goals[index].milestones.forEach(m => m.completed = completedStatus); } saveGoals(); renderGoalList(); renderDashboard(); renderCalendar(); } };
 
          // --- Modal Handling ---
-        const openModal = (modalId, title, message, onConfirm) => { /* ... open modal ... */
-            const modalElement = document.getElementById(modalId); if (!modalElement) return;
-            modalTitle.textContent = title; modalMessage.textContent = message;
-            const confirmBtn = modalElement.querySelector('#modal-confirm-btn'); if (!confirmBtn) return;
-            const newConfirmBtn = confirmBtn.cloneNode(true); confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn); newConfirmBtn.onclick = onConfirm;
-            modalElement.style.display = 'flex';
-        };
-        const closeModal = (modalId) => { /* ... close modal ... */
-             const modalElement = document.getElementById(modalId); if (!modalElement) return;
-             modalElement.style.display = 'none';
-             const confirmBtn = modalElement.querySelector('#modal-confirm-btn'); if (confirmBtn) confirmBtn.onclick = null;
-        };
+        const openModal = (modalId, title, message, onConfirm) => { /* ... open modal ... */ const modalElement = document.getElementById(modalId); if (!modalElement) return; modalTitle.textContent = title; modalMessage.textContent = message; const confirmBtn = modalElement.querySelector('#modal-confirm-btn'); if (!confirmBtn) return; const newConfirmBtn = confirmBtn.cloneNode(true); confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn); newConfirmBtn.onclick = onConfirm; modalElement.style.display = 'flex'; };
+        const closeModal = (modalId) => { /* ... close modal ... */ const modalElement = document.getElementById(modalId); if (!modalElement) return; modalElement.style.display = 'none'; const confirmBtn = modalElement.querySelector('#modal-confirm-btn'); if (confirmBtn) confirmBtn.onclick = null; };
         window.addEventListener('click', function(event) { if (event.target.classList.contains('modal')) closeModal(event.target.id); });
 
         // --- Dashboard Rendering ---
         const renderDashboard = () => { /* ... render dashboard ... */
-            let activeCount = 0, completedCount = 0, overdueCount = 0;
-            const today = new Date(); const nextWeek = new Date(); nextWeek.setDate(today.getDate() + 7);
-            today.setHours(0,0,0,0); nextWeek.setHours(0,0,0,0);
-            const upcomingItems = [];
-            goals.forEach(goal => {
-                const status = getGoalStatus(goal);
-                if (status === 'Concluída') completedCount++; else if (status === 'Atrasada') { overdueCount++; activeCount++; } else activeCount++;
-                const endDateStr = goal.endDate;
-                if (endDateStr && !goal.completed) {
-                    const parts = endDateStr.split('-'); const endDate = new Date(parts[0], parts[1] - 1, parts[2]).setHours(0,0,0,0);
-                    if (endDate >= today && endDate <= nextWeek) upcomingItems.push({ type: 'Prazo Final', date: goal.endDate, text: goal.title, goalId: goal.id });
-                }
-                goal.milestones?.forEach(milestone => {
-                    const milestoneDateStr = milestone.date;
-                    if (milestoneDateStr && !milestone.completed && !goal.completed) {
-                        const parts = milestoneDateStr.split('-'); const milestoneDate = new Date(parts[0], parts[1] - 1, parts[2]).setHours(0,0,0,0);
-                        if (milestoneDate >= today && milestoneDate <= nextWeek) upcomingItems.push({ type: 'Marco', date: milestone.date, text: `${goal.title} - ${milestone.text}`, goalId: goal.id });
-                    }
-                });
+            let activeCount = 0, completedCount = 0, overdueCount = 0; const today = new Date(); const nextWeek = new Date(); nextWeek.setDate(today.getDate() + 7); today.setHours(0,0,0,0); nextWeek.setHours(0,0,0,0); const upcomingItems = [];
+            goals.forEach(goal => { const status = getGoalStatus(goal); if (status === 'Concluída') completedCount++; else if (status === 'Atrasada') { overdueCount++; activeCount++; } else activeCount++; const endDateStr = goal.endDate; if (endDateStr && !goal.completed) { try { const parts = endDateStr.split('-'); const endDate = new Date(parts[0], parts[1] - 1, parts[2]).setHours(0,0,0,0); if (!isNaN(endDate) && endDate >= today && endDate <= nextWeek) upcomingItems.push({ type: 'Prazo Final', date: goal.endDate, text: goal.title, goalId: goal.id }); } catch(e){console.error("Error parsing end date for dashboard:", e);} }
+                goal.milestones?.forEach(milestone => { const milestoneDateStr = milestone.date; if (milestoneDateStr && !milestone.completed && !goal.completed) { try { const parts = milestoneDateStr.split('-'); const milestoneDate = new Date(parts[0], parts[1] - 1, parts[2]).setHours(0,0,0,0); if (!isNaN(milestoneDate) && milestoneDate >= today && milestoneDate <= nextWeek) upcomingItems.push({ type: 'Marco', date: milestone.date, text: `${goal.title} - ${milestone.text}`, goalId: goal.id }); } catch(e){console.error("Error parsing milestone date for dashboard:", e);} } });
             });
-            const upcomingGoalIds = new Set(upcomingItems.map(item => item.goalId));
-            activeGoalsCountEl.textContent = activeCount; completedGoalsCountEl.textContent = completedCount; overdueGoalsCountEl.textContent = overdueCount; upcomingDeadlinesCountEl.textContent = upcomingGoalIds.size;
-            upcomingItems.sort((a, b) => new Date(a.date) - new Date(b.date));
-            upcomingItemsListEl.innerHTML = ''; noUpcomingMessage.classList.toggle('hidden', upcomingItems.length > 0);
-            if (upcomingItems.length > 0) {
-                upcomingItems.forEach(item => {
-                    const li = document.createElement('div');
-                    li.className = `p-1.5 md:p-2 border-b border-gray-200 last:border-b-0 text-xs md:text-sm flex justify-between items-center ${item.type === 'Prazo Final' ? 'bg-red-50' : 'bg-blue-50'}`;
-                    li.innerHTML = `<span class="flex-1 mr-2 overflow-hidden text-ellipsis whitespace-nowrap"><i class="fas ${item.type === 'Prazo Final' ? 'fa-flag-checkered text-red-600' : 'fa-calendar-check text-blue-600'} mr-1 md:mr-2"></i>${item.text}</span><span class="font-medium text-gray-700 whitespace-nowrap">${formatDate(item.date)}</span>`;
-                    upcomingItemsListEl.appendChild(li);
-                });
-            }
-            const chartData = { labels: ['Em Andamento', 'Concluídas', 'Atrasadas'], datasets: [{ label: 'Status das Metas', data: [activeCount - overdueCount, completedCount, overdueCount], backgroundColor: ['rgba(59, 130, 246, 0.7)', 'rgba(16, 185, 129, 0.7)', 'rgba(239, 68, 68, 0.7)'], borderWidth: 1 }] };
-            if (overallProgressChartInstance) overallProgressChartInstance.destroy();
-            overallProgressChartInstance = new Chart(overallProgressChartCtx, { type: 'bar', data: chartData, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }, plugins: { legend: { display: false } } } });
+            const upcomingGoalIds = new Set(upcomingItems.map(item => item.goalId)); activeGoalsCountEl.textContent = activeCount; completedGoalsCountEl.textContent = completedCount; overdueGoalsCountEl.textContent = overdueCount; upcomingDeadlinesCountEl.textContent = upcomingGoalIds.size;
+            upcomingItems.sort((a, b) => new Date(a.date) - new Date(b.date)); upcomingItemsListEl.innerHTML = ''; noUpcomingMessage.classList.toggle('hidden', upcomingItems.length > 0);
+            if (upcomingItems.length > 0) { upcomingItems.forEach(item => { const li = document.createElement('div'); li.className = `p-1.5 md:p-2 border-b border-gray-200 last:border-b-0 text-xs md:text-sm flex justify-between items-center ${item.type === 'Prazo Final' ? 'bg-red-50' : 'bg-blue-50'}`; li.innerHTML = `<span class="flex-1 mr-2 overflow-hidden text-ellipsis whitespace-nowrap"><i class="fas ${item.type === 'Prazo Final' ? 'fa-flag-checkered text-red-600' : 'fa-calendar-check text-blue-600'} mr-1 md:mr-2"></i>${item.text}</span><span class="font-medium text-gray-700 whitespace-nowrap">${formatDate(item.date)}</span>`; upcomingItemsListEl.appendChild(li); }); }
+            const chartData = { labels: ['Em Andamento', 'Concluídas', 'Atrasadas'], datasets: [{ label: 'Status das Metas', data: [activeCount - overdueCount, completedCount, overdueCount], backgroundColor: ['rgba(59, 130, 246, 0.7)', 'rgba(16, 185, 129, 0.7)', 'rgba(239, 68, 68, 0.7)'], borderWidth: 1 }] }; if (overallProgressChartInstance) overallProgressChartInstance.destroy(); try { overallProgressChartInstance = new Chart(overallProgressChartCtx, { type: 'bar', data: chartData, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }, plugins: { legend: { display: false } } } }); } catch(e){console.error("Error creating chart:", e);}
         };
 
          // --- Calendar Rendering ---
-        const renderCalendar = () => { /* ... render calendar ... */
-            calendarGrid.innerHTML = ''; const month = currentCalendarDate.getMonth(); const year = currentCalendarDate.getFullYear();
-            calendarMonthYear.textContent = `${currentCalendarDate.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}`;
-            const firstDayOfMonth = new Date(year, month, 1); const lastDayOfMonth = new Date(year, month + 1, 0);
-            const daysInMonth = lastDayOfMonth.getDate(); const startDayOfWeek = firstDayOfMonth.getDay();
-            const today = new Date(); today.setHours(0,0,0,0); const events = getEventsForMonth(year, month);
-            const lastDayOfPrevMonth = new Date(year, month, 0).getDate();
-            for (let i = startDayOfWeek - 1; i >= 0; i--) calendarGrid.appendChild(createCalendarDayCell(lastDayOfPrevMonth - i, month - 1, year, true));
-            for (let day = 1; day <= daysInMonth; day++) {
-                const currentDate = new Date(year, month, day); currentDate.setHours(0,0,0,0); const isToday = currentDate.getTime() === today.getTime();
-                calendarGrid.appendChild(createCalendarDayCell(day, month, year, false, isToday, events[day]));
+        const renderCalendar = () => {
+             // ** ADDED: Clear grid content safely **
+             if (!calendarGrid) {
+                 console.error("Calendar grid element not found!");
+                 return;
+             }
+             calendarGrid.innerHTML = ''; // Clear previous grid
+
+             try { // ** ADDED: Wrap main logic in try...catch **
+                const month = currentCalendarDate.getMonth();
+                const year = currentCalendarDate.getFullYear();
+
+                calendarMonthYear.textContent = `${currentCalendarDate.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}`;
+
+                const firstDayOfMonth = new Date(year, month, 1);
+                const lastDayOfMonth = new Date(year, month + 1, 0);
+                const daysInMonth = lastDayOfMonth.getDate();
+                const startDayOfWeek = firstDayOfMonth.getDay();
+
+                const today = new Date();
+                today.setHours(0,0,0,0);
+
+                const events = getEventsForMonth(year, month); // Get events safely
+
+                // Previous month days
+                const lastDayOfPrevMonth = new Date(year, month, 0).getDate();
+                for (let i = startDayOfWeek - 1; i >= 0; i--) {
+                    calendarGrid.appendChild(createCalendarDayCell(lastDayOfPrevMonth - i, month - 1, year, true));
+                }
+
+                // Current month days
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const currentDate = new Date(year, month, day);
+                    currentDate.setHours(0,0,0,0);
+                    const isToday = currentDate.getTime() === today.getTime();
+                    // Pass events safely
+                    const dayEvents = events[day] || [];
+                    calendarGrid.appendChild(createCalendarDayCell(day, month, year, false, isToday, dayEvents));
+                }
+
+                // Next month days
+                const totalCells = startDayOfWeek + daysInMonth;
+                const remainingCells = (totalCells % 7 === 0) ? 0 : 7 - (totalCells % 7);
+                for (let i = 1; i <= remainingCells; i++) {
+                    calendarGrid.appendChild(createCalendarDayCell(i, month + 1, year, true));
+                }
+            } catch (error) {
+                 console.error("Error rendering calendar days:", error);
+                 // Optionally display an error message to the user in the calendar grid
+                 calendarGrid.innerHTML = '<p class="text-red-500 text-center col-span-7 p-4">Erro ao carregar o calendário.</p>';
             }
-            const totalCells = startDayOfWeek + daysInMonth; const remainingCells = (totalCells % 7 === 0) ? 0 : 7 - (totalCells % 7);
-            for (let i = 1; i <= remainingCells; i++) calendarGrid.appendChild(createCalendarDayCell(i, month + 1, year, true));
         };
+
         const createCalendarDayCell = (day, month, year, isOtherMonth, isToday = false, dayEvents = []) => { /* ... create calendar day cell ... */
             const cell = document.createElement('div'); cell.className = 'calendar-day'; if (isOtherMonth) cell.classList.add('other-month'); if (isToday) cell.classList.add('today');
             const currentDate = new Date(year, month, day); const displayDay = currentDate.getDate(); cell.innerHTML = `<span class="day-number">${displayDay}</span>`;
-            if (dayEvents && dayEvents.length > 0) {
+            // ** Ensure dayEvents is always an array **
+            const eventsToShow = Array.isArray(dayEvents) ? dayEvents : [];
+            if (eventsToShow.length > 0) {
                 const eventsContainer = document.createElement('div'); eventsContainer.className = 'space-y-0.5 overflow-hidden';
-                dayEvents.slice(0, 1).forEach(event => {
-                    const eventEl = document.createElement('div'); eventEl.className = `calendar-event ${event.class}`; eventEl.textContent = event.text; eventEl.title = `${event.type}: ${event.fullText}`; eventsContainer.appendChild(eventEl);
-                });
-                if (dayEvents.length > 1) { const moreEl = document.createElement('div'); moreEl.className = 'text-xs text-gray-500 mt-0.5'; moreEl.textContent = `+${dayEvents.length - 1}`; eventsContainer.appendChild(moreEl); }
+                eventsToShow.slice(0, 1).forEach(event => { const eventEl = document.createElement('div'); eventEl.className = `calendar-event ${event?.class || ''}`; eventEl.textContent = event?.text || ''; eventEl.title = `${event?.type || 'Evento'}: ${event?.fullText || ''}`; eventsContainer.appendChild(eventEl); });
+                if (eventsToShow.length > 1) { const moreEl = document.createElement('div'); moreEl.className = 'text-xs text-gray-500 mt-0.5'; moreEl.textContent = `+${eventsToShow.length - 1}`; eventsContainer.appendChild(moreEl); }
                 cell.appendChild(eventsContainer);
             } return cell;
         };
-        const getEventsForMonth = (year, month) => { /* ... get events for month ... */
-             const events = {}; const today = new Date().setHours(0,0,0,0);
-            goals.forEach(goal => {
-                goal.milestones?.forEach(milestone => {
-                    if (!milestone.date) return; const parts = milestone.date.split('-'); const milestoneDate = new Date(parts[0], parts[1] - 1, parts[2]).setHours(0,0,0,0);
-                    if (milestoneDate.getFullYear() === year && milestoneDate.getMonth() === month) {
-                        const day = milestoneDate.getDate(); if (!events[day]) events[day] = []; const isOverdue = milestoneDate.getTime() < today && !milestone.completed && !goal.completed; const eventClass = milestone.completed || goal.completed ? '' : (isOverdue ? 'event-overdue' : 'event-milestone');
-                        if (eventClass) events[day].push({ type: 'Marco', text: milestone.text.substring(0, 8) + '...', fullText: milestone.text, class: eventClass });
+
+        const getEventsForMonth = (year, month) => {
+            const events = {};
+            const today = new Date().setHours(0,0,0,0);
+
+            try { // ** ADDED: Wrap in try...catch **
+                goals.forEach(goal => {
+                    if (!goal || typeof goal !== 'object') return; // Basic check
+
+                    // Milestones
+                    if (Array.isArray(goal.milestones)) {
+                        goal.milestones.forEach(milestone => {
+                            try { // ** ADDED: Inner try...catch for each milestone **
+                                if (!milestone || !milestone.date) return;
+                                const parts = milestone.date.split('-');
+                                if (parts.length !== 3) return;
+                                const milestoneDate = new Date(parts[0], parts[1] - 1, parts[2]).setHours(0,0,0,0);
+                                if (isNaN(milestoneDate)) return;
+
+                                if (new Date(milestoneDate).getFullYear() === year && new Date(milestoneDate).getMonth() === month) {
+                                    const day = new Date(milestoneDate).getDate();
+                                    if (!events[day]) events[day] = [];
+                                    const isOverdue = milestoneDate < today && !milestone.completed && !goal.completed;
+                                    const eventClass = milestone.completed || goal.completed ? '' : (isOverdue ? 'event-overdue' : 'event-milestone');
+                                    if (eventClass) {
+                                        events[day].push({ type: 'Marco', text: (milestone.text || '').substring(0, 8) + '...', fullText: milestone.text || '', class: eventClass });
+                                    }
+                                }
+                            } catch (e) {
+                                console.error("Error processing milestone:", milestone, e);
+                            }
+                        });
+                    }
+
+                    // Deadlines
+                    try { // ** ADDED: Inner try...catch for deadline **
+                        if (!goal.endDate) return;
+                        const parts = goal.endDate.split('-');
+                        if (parts.length !== 3) return;
+                        const endDate = new Date(parts[0], parts[1] - 1, parts[2]).setHours(0,0,0,0);
+                        if (isNaN(endDate)) return;
+
+                        if (new Date(endDate).getFullYear() === year && new Date(endDate).getMonth() === month) {
+                            const day = new Date(endDate).getDate();
+                            if (!events[day]) events[day] = [];
+                            const goalStatus = getGoalStatus(goal);
+                            const eventClass = goalStatus === 'Concluída' ? '' : (goalStatus === 'Atrasada' ? 'event-overdue' : 'event-deadline');
+                            if (eventClass) {
+                                events[day].push({ type: 'Prazo', text: (goal.title || '').substring(0, 8) + '...', fullText: goal.title || '', class: eventClass });
+                            }
+                        }
+                    } catch (e) {
+                         console.error("Error processing goal deadline:", goal, e);
                     }
                 });
-                if (!goal.endDate) return; const parts = goal.endDate.split('-'); const endDate = new Date(parts[0], parts[1] - 1, parts[2]).setHours(0,0,0,0);
-                if (endDate.getFullYear() === year && endDate.getMonth() === month) {
-                    const day = endDate.getDate(); if (!events[day]) events[day] = []; const goalStatus = getGoalStatus(goal); const eventClass = goalStatus === 'Concluída' ? '' : (goalStatus === 'Atrasada' ? 'event-overdue' : 'event-deadline');
-                    if (eventClass) events[day].push({ type: 'Prazo', text: goal.title.substring(0, 8) + '...', fullText: goal.title, class: eventClass });
-                }
-            }); return events;
+            } catch (error) {
+                 console.error("Error processing goals for calendar events:", error);
+            }
+            return events;
          };
+
         prevMonthBtn.addEventListener('click', () => { currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1); renderCalendar(); });
         nextMonthBtn.addEventListener('click', () => { currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1); renderCalendar(); });
 
          // --- Mobile Menu Toggle ---
-         const toggleMobileMenu = (show) => {
-             const body = document.body;
-             if (show) {
-                 mobileNavOverlay.classList.remove('hidden'); // Show overlay
-                 mobileNavMenu.classList.remove('hidden');
-                 // Use timeout to allow display property to apply before starting transition
-                 setTimeout(() => {
-                     mobileNavOverlay.classList.remove('opacity-0'); // Fade in overlay
-                     mobileNavMenu.classList.remove('-translate-x-full'); // Slide in menu
-                 }, 10);
-                 body.classList.add('overflow-hidden'); // Prevent body scroll
-             } else {
-                 mobileNavOverlay.classList.add('opacity-0'); // Fade out overlay
-                 mobileNavMenu.classList.add('-translate-x-full'); // Slide out menu
-                 // Wait for transition to finish before hiding
-                 setTimeout(() => {
-                     mobileNavOverlay.classList.add('hidden');
-                     mobileNavMenu.classList.add('hidden');
-                     body.classList.remove('overflow-hidden'); // Re-enable body scroll
-                 }, 300); // Match transition duration
-             }
+         const toggleMobileMenu = (show) => { /* ... toggle mobile menu ... */
+             const body = document.body; if (!mobileNavMenu || !mobileNavOverlay) return;
+             if (show) { mobileNavOverlay.classList.remove('hidden'); mobileNavMenu.classList.remove('hidden'); setTimeout(() => { mobileNavOverlay.classList.remove('opacity-0'); mobileNavMenu.classList.remove('-translate-x-full'); }, 10); body.classList.add('overflow-hidden'); }
+             else { mobileNavOverlay.classList.add('opacity-0'); mobileNavMenu.classList.add('-translate-x-full'); setTimeout(() => { mobileNavOverlay.classList.add('hidden'); mobileNavMenu.classList.add('hidden'); body.classList.remove('overflow-hidden'); }, 300); }
          };
 
         // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
             // Setup Desktop navigation
-            navItems.forEach(item => {
-                item.addEventListener('click', (e) => { e.preventDefault(); showSection(item.dataset.section); if (item.dataset.section === 'add-goal' && !currentEditingGoalId) resetGoalForm(); });
-            });
-
-            // ** MODIFIED: Ensure mobileMenuBtn exists before adding listener **
-            if (mobileMenuBtn) {
-                 mobileMenuBtn.addEventListener('click', (e) => {
-                     e.stopPropagation(); // Prevent triggering potential body clicks
-                     toggleMobileMenu(true);
-                 });
-            }
-
-            // Setup Mobile navigation links
-             mobileNavItems.forEach(item => {
-                 item.addEventListener('click', (e) => { e.preventDefault(); showSection(item.dataset.section, true); if (item.dataset.section === 'add-goal' && !currentEditingGoalId) resetGoalForm(); });
-             });
-
-            // Close mobile menu handled by overlay click now
-
+            navItems.forEach(item => { item.addEventListener('click', (e) => { e.preventDefault(); showSection(item.dataset.section); if (item.dataset.section === 'add-goal' && !currentEditingGoalId) resetGoalForm(); }); });
+            // Setup Mobile navigation
+            if (mobileMenuBtn) { mobileMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleMobileMenu(true); }); }
+            mobileNavItems.forEach(item => { item.addEventListener('click', (e) => { e.preventDefault(); showSection(item.dataset.section, true); if (item.dataset.section === 'add-goal' && !currentEditingGoalId) resetGoalForm(); }); });
+            if (mobileNavOverlay) { mobileNavOverlay.addEventListener('click', () => toggleMobileMenu(false)); } // Close on overlay click
+            // Setup Start Button
             startNowButton.addEventListener('click', () => showSection('goals'));
-
             // Setup Filters
-            filterCategory.addEventListener('change', renderGoalList);
-            filterStatus.addEventListener('change', renderGoalList);
-            filterPriority.addEventListener('change', renderGoalList);
+            filterCategory.addEventListener('change', renderGoalList); filterStatus.addEventListener('change', renderGoalList); filterPriority.addEventListener('change', renderGoalList);
             clearFiltersBtn.addEventListener('click', () => { filterCategory.value = 'Todos'; filterStatus.value = 'Todos'; filterPriority.value = 'Todos'; renderGoalList(); });
-
             // Initial setup
-            showSection('landing');
-            resetGoalForm();
-            renderGoalList();
-            renderDashboard();
-            renderCalendar();
-
-            // Initial state for mobile menu (ensure it's hidden correctly)
-            mobileNavMenu.classList.add('hidden', '-translate-x-full');
-            mobileNavOverlay.classList.add('hidden', 'opacity-0');
+            showSection('landing'); resetGoalForm(); renderGoalList(); renderDashboard(); renderCalendar();
+            // Initial mobile menu state
+            if(mobileNavMenu) mobileNavMenu.classList.add('hidden', '-translate-x-full');
+            if(mobileNavOverlay) mobileNavOverlay.classList.add('hidden', 'opacity-0');
         });
 
     </script>
