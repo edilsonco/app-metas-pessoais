@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
     <style>
-        /* (Styles remain the same as v1.5) */
+        /* (Styles remain the same as v1.5/v1.6) */
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         body.overflow-hidden { overflow: hidden; }
         .transition-all { transition: all 0.3s ease-in-out; }
@@ -76,7 +76,7 @@
             <a href="#calendar" class="nav-item flex items-center px-3 py-1.5 md:px-4 md:py-2 rounded-md text-gray-700 hover:bg-gray-100" data-section="calendar"><i class="fas fa-calendar-alt mr-2 md:mr-3 w-5 text-center"></i> <span class="text-sm md:text-base">Calendário</span></a>
             <a href="#add-goal" class="nav-item flex items-center px-3 py-1.5 md:px-4 md:py-2 rounded-md text-gray-700 hover:bg-gray-100" data-section="add-goal"><i class="fas fa-plus-circle mr-2 md:mr-3 w-5 text-center"></i> <span class="text-sm md:text-base">Nova Meta</span></a>
         </nav>
-        <div class="p-2 md:p-4 border-t text-center text-xs text-gray-500">Organizador de Metas v1.6</div> </aside>
+        <div class="p-2 md:p-4 border-t text-center text-xs text-gray-500">Organizador de Metas v1.7</div> </aside>
 
     <header class="md:hidden w-full bg-white shadow-md p-3 flex justify-between items-center sticky top-0 z-30">
          <div class="text-lg font-bold text-sky-700"><i class="fas fa-bullseye mr-2"></i> MetaApp</div>
@@ -149,7 +149,7 @@
 
         // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
-            console.log("DOM fully loaded and parsed - v1.6"); // ** Version Log Added **
+            console.log("DOM fully loaded and parsed - v1.7"); // ** Version Log Updated **
             try {
                 // Select DOM elements
                 console.log("Selecting DOM elements...");
@@ -197,22 +197,22 @@
                 if (!Array.isArray(goals)) { console.warn("Stored goals data is not an array, resetting."); goals = []; localStorage.setItem('goals', JSON.stringify(goals)); }
                 console.log("Goals loaded:", goals.length);
 
-                // Add Event Listeners Safely
+                // Add Event Listeners Safely (Removed optional chaining ?. )
                 console.log("Adding event listeners...");
-                navItems?.forEach(item => { item.addEventListener('click', (e) => { e.preventDefault(); showSection(item.dataset.section); if (item.dataset.section === 'add-goal' && !currentEditingGoalId) resetGoalForm(); }); });
-                mobileMenuBtn?.addEventListener('click', (e) => { e.stopPropagation(); toggleMobileMenu(true); });
-                mobileNavItems?.forEach(item => { item.addEventListener('click', (e) => { e.preventDefault(); showSection(item.dataset.section, true); if (item.dataset.section === 'add-goal' && !currentEditingGoalId) resetGoalForm(); }); });
-                mobileNavOverlay?.addEventListener('click', () => toggleMobileMenu(false));
-                startNowButton?.addEventListener('click', () => showSection('goals'));
-                filterCategory?.addEventListener('change', renderGoalList);
-                filterStatus?.addEventListener('change', renderGoalList);
-                filterPriority?.addEventListener('change', renderGoalList);
-                clearFiltersBtn?.addEventListener('click', () => { if(filterCategory && filterStatus && filterPriority){ filterCategory.value = 'Todos'; filterStatus.value = 'Todos'; filterPriority.value = 'Todos'; renderGoalList(); }});
-                addMilestoneBtn?.addEventListener('click', () => addMilestoneInput());
-                goalForm?.addEventListener('submit', (e) => { /* ... submit logic ... */ e.preventDefault(); try { const formData = new FormData(goalForm); const goalData = Object.fromEntries(formData.entries()); goalData.milestones = []; document.querySelectorAll('.milestone-entry').forEach(entry => { const textInput = entry.querySelector('.milestone-text'); const dateInput = entry.querySelector('.milestone-date'); const completedCheckbox = entry.querySelector('.milestone-completed'); if (textInput && textInput.value.trim()) { goalData.milestones.push({ text: textInput.value.trim(), date: dateInput ? dateInput.value : '', completed: completedCheckbox ? completedCheckbox.checked : false }); } }); if (goalData.endDate && goalData.startDate && goalData.endDate < goalData.startDate) { alert('A Data Final não pode ser anterior à Data de Início.'); return; } if (currentEditingGoalId) { const index = goals.findIndex(g => g.id === currentEditingGoalId); if (index !== -1) { const originalGoal = goals[index]; goals[index] = { ...originalGoal, ...goalData, id: currentEditingGoalId }; const allMilestonesCompleted = goalData.milestones.length > 0 && goalData.milestones.every(m => m.completed); goals[index].completed = allMilestonesCompleted; } } else { goalData.id = `goal-${Date.now()}`; goalData.completed = false; const allMilestonesCompleted = goalData.milestones.length > 0 && goalData.milestones.every(m => m.completed); goalData.completed = allMilestonesCompleted; goals.push(goalData); } saveGoals(); resetGoalForm(); showSection('goals'); } catch (error) { console.error("Error submitting goal form:", error); alert("Ocorreu um erro ao salvar a meta. Tente novamente."); } });
-                cancelEditBtn?.addEventListener('click', () => { resetGoalForm(); showSection('goals'); });
-                prevMonthBtn?.addEventListener('click', () => { currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1); renderCalendar(); });
-                nextMonthBtn?.addEventListener('click', () => { currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1); renderCalendar(); });
+                if (navItems) navItems.forEach(item => { item.addEventListener('click', (e) => { e.preventDefault(); showSection(item.dataset.section); if (item.dataset.section === 'add-goal' && !currentEditingGoalId) resetGoalForm(); }); });
+                if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleMobileMenu(true); });
+                if (mobileNavItems) mobileNavItems.forEach(item => { item.addEventListener('click', (e) => { e.preventDefault(); showSection(item.dataset.section, true); if (item.dataset.section === 'add-goal' && !currentEditingGoalId) resetGoalForm(); }); });
+                if (mobileNavOverlay) mobileNavOverlay.addEventListener('click', () => toggleMobileMenu(false));
+                if (startNowButton) startNowButton.addEventListener('click', () => showSection('goals'));
+                if (filterCategory) filterCategory.addEventListener('change', renderGoalList);
+                if (filterStatus) filterStatus.addEventListener('change', renderGoalList);
+                if (filterPriority) filterPriority.addEventListener('change', renderGoalList);
+                if (clearFiltersBtn) clearFiltersBtn.addEventListener('click', () => { if(filterCategory && filterStatus && filterPriority){ filterCategory.value = 'Todos'; filterStatus.value = 'Todos'; filterPriority.value = 'Todos'; renderGoalList(); }});
+                if (addMilestoneBtn) addMilestoneBtn.addEventListener('click', () => addMilestoneInput());
+                if (goalForm) goalForm.addEventListener('submit', (e) => { /* ... submit logic ... */ e.preventDefault(); try { const formData = new FormData(goalForm); const goalData = Object.fromEntries(formData.entries()); goalData.milestones = []; document.querySelectorAll('.milestone-entry').forEach(entry => { const textInput = entry.querySelector('.milestone-text'); const dateInput = entry.querySelector('.milestone-date'); const completedCheckbox = entry.querySelector('.milestone-completed'); if (textInput && textInput.value.trim()) { goalData.milestones.push({ text: textInput.value.trim(), date: dateInput ? dateInput.value : '', completed: completedCheckbox ? completedCheckbox.checked : false }); } }); if (goalData.endDate && goalData.startDate && goalData.endDate < goalData.startDate) { alert('A Data Final não pode ser anterior à Data de Início.'); return; } if (currentEditingGoalId) { const index = goals.findIndex(g => g.id === currentEditingGoalId); if (index !== -1) { const originalGoal = goals[index]; goals[index] = { ...originalGoal, ...goalData, id: currentEditingGoalId }; const allMilestonesCompleted = goalData.milestones.length > 0 && goalData.milestones.every(m => m.completed); goals[index].completed = allMilestonesCompleted; } } else { goalData.id = `goal-${Date.now()}`; goalData.completed = false; const allMilestonesCompleted = goalData.milestones.length > 0 && goalData.milestones.every(m => m.completed); goalData.completed = allMilestonesCompleted; goals.push(goalData); } saveGoals(); resetGoalForm(); showSection('goals'); } catch (error) { console.error("Error submitting goal form:", error); alert("Ocorreu um erro ao salvar a meta. Tente novamente."); } });
+                if (cancelEditBtn) cancelEditBtn.addEventListener('click', () => { resetGoalForm(); showSection('goals'); });
+                if (prevMonthBtn) prevMonthBtn.addEventListener('click', () => { currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1); renderCalendar(); });
+                if (nextMonthBtn) nextMonthBtn.addEventListener('click', () => { currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1); renderCalendar(); });
                 window.addEventListener('click', function(event) { if (event.target.classList.contains('modal')) closeModal(event.target.id); });
                 console.log("Event listeners added.");
 
@@ -232,7 +232,6 @@
             } catch (error) {
                 // ** Catch initialization errors **
                 console.error("CRITICAL ERROR during initialization:", error);
-                // Display a user-friendly error message, hide the main app potentially
                  try {
                      document.body.innerHTML = `<div class="w-screen h-screen flex items-center justify-center p-4 bg-red-100 text-red-700"><div><h1 class="text-2xl font-bold mb-2">Erro ao Carregar</h1><p>Ocorreu um erro inesperado ao carregar o aplicativo. Por favor, tente recarregar a página. Se o problema persistir, o aplicativo pode estar temporariamente indisponível.</p><p class="mt-2 text-xs">Detalhe do erro (para suporte): ${error.message}</p></div></div>`;
                  } catch (renderError) {
